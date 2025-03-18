@@ -1,0 +1,31 @@
+@model esii.Models.utilizadorviewmodel
+
+<h2>Criar Novo Utilizador</h2>
+
+<form method="post">
+
+    <div class="mt-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" asp-for="Nome"/>
+    </div>
+
+    <div class="mt-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" asp-for="Email"/>
+    </div>
+    <div class="mt-3">
+        <label class="form-label">Password</label>
+        <input type="text" class="form-control" asp-for="Password"/>
+    </div>
+
+    <div class="mt-3">
+        <label class="form-label">Nif</label>
+        <input type="text" class="form-control" asp-for="Nif"/>
+    </div>
+    
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Registar</button>
+    </div>
+
+</form>
