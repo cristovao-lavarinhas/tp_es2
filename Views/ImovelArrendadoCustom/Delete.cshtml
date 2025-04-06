@@ -19,10 +19,12 @@
     <dd class="col-sm-9">@Model.ValorImovel</dd>
 </dl>
 
-<form asp-action="DeleteConfirmed" method="post">
+<form asp-action="Delete" asp-route-id="@Model.AtivoId" method="post">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="AtivoId" />
     <button type="submit" class="btn btn-danger">Apagar</button>
-    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancelar</a>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>
+
+
 

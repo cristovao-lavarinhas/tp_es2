@@ -8,9 +8,6 @@ namespace esii.Models
         
         // Campos do Ativofinanceiro
         [Required]
-        public int UtilizadorId { get; set; }
-
-        [Required]
         public DateOnly DataIni { get; set; }
 
         public int Duracao { get; set; }

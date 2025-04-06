@@ -1,5 +1,7 @@
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using esii.Context;
@@ -8,6 +10,7 @@ using esii.Models;
 
 namespace esii.Controllers
 {
+    [Authorize]
     [Route("Investimentos/Imoveis")]
     public class ImovelArrendadoCustomController : Controller
     {
@@ -21,25 +24,15 @@ namespace esii.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
+            var utilizadorId = GetUtilizadorId();
+            if (utilizadorId == null) return Unauthorized();
+
             var dados = await _context.Imovelarrendados
                 .Include(i => i.Ativo)
+                .Where(i => i.Ativo.UtilizadorId == utilizadorId)
                 .ToListAsync();
 
-            var viewModels = dados.Select(i => new ImovelArrendadoCreateViewModel
-            {
-                AtivoId = i.AtivoId,
-                UtilizadorId = i.Ativo.UtilizadorId,
-                DataIni = i.Ativo.DataIni,
-                Duracao = i.Ativo.Duracao,
-                Imposto = i.Ativo.Imposto,
-                Designacao = i.Designacao,
-                Localizacao = i.Localizacao,
-                ValorImovel = i.ValorImovel,
-                ValorRenda = i.ValorRenda,
-                ValorMensalCondominio = i.ValorMensalCondominio,
-                ValorAnualDespesas = i.ValorAnualDespesas
-            }).ToList();
-
+            var viewModels = dados.Select(ToViewModel).ToList();
             return View(viewModels);
         }
 
@@ -52,24 +45,9 @@ namespace esii.Controllers
                 .Include(i => i.Ativo)
                 .FirstOrDefaultAsync(i => i.AtivoId == id);
 
-            if (imovel == null) return NotFound();
+            if (imovel == null || !UtilizadorTemPermissao(imovel.Ativo)) return NotFound();
 
-            var viewModel = new ImovelArrendadoCreateViewModel
-            {
-                AtivoId = imovel.AtivoId,
-                UtilizadorId = imovel.Ativo.UtilizadorId,
-                DataIni = imovel.Ativo.DataIni,
-                Duracao = imovel.Ativo.Duracao,
-                Imposto = imovel.Ativo.Imposto,
-                Designacao = imovel.Designacao,
-                Localizacao = imovel.Localizacao,
-                ValorImovel = imovel.ValorImovel,
-                ValorRenda = imovel.ValorRenda,
-                ValorMensalCondominio = imovel.ValorMensalCondominio,
-                ValorAnualDespesas = imovel.ValorAnualDespesas
-            };
-
-            return View(viewModel);
+            return View(ToViewModel(imovel));
         }
 
         [HttpGet("Create")]
@@ -82,37 +60,37 @@ namespace esii.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ImovelArrendadoCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+
+            var utilizadorId = GetUtilizadorId();
+            if (utilizadorId == null) return Unauthorized();
+
+            var ativo = new Ativofinanceiro
             {
-                var ativo = new Ativofinanceiro
-                {
-                    UtilizadorId = model.UtilizadorId,
-                    DataIni = model.DataIni,
-                    Duracao = model.Duracao,
-                    Imposto = model.Imposto
-                };
+                UtilizadorId = utilizadorId.Value,
+                DataIni = model.DataIni,
+                Duracao = model.Duracao,
+                Imposto = model.Imposto
+            };
 
-                _context.Ativofinanceiros.Add(ativo);
-                await _context.SaveChangesAsync();
+            _context.Ativofinanceiros.Add(ativo);
+            await _context.SaveChangesAsync();
 
-                var imovel = new Imovelarrendado
-                {
-                    AtivoId = ativo.Id,
-                    Designacao = model.Designacao,
-                    Localizacao = model.Localizacao,
-                    ValorImovel = model.ValorImovel,
-                    ValorRenda = model.ValorRenda,
-                    ValorMensalCondominio = model.ValorMensalCondominio,
-                    ValorAnualDespesas = model.ValorAnualDespesas
-                };
+            var imovel = new Imovelarrendado
+            {
+                AtivoId = ativo.Id,
+                Designacao = model.Designacao,
+                Localizacao = model.Localizacao,
+                ValorImovel = model.ValorImovel,
+                ValorRenda = model.ValorRenda,
+                ValorMensalCondominio = model.ValorMensalCondominio,
+                ValorAnualDespesas = model.ValorAnualDespesas
+            };
 
-                _context.Imovelarrendados.Add(imovel);
-                await _context.SaveChangesAsync();
+            _context.Imovelarrendados.Add(imovel);
+            await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(model);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet("Edit/{id}")]
@@ -124,24 +102,9 @@ namespace esii.Controllers
                 .Include(i => i.Ativo)
                 .FirstOrDefaultAsync(i => i.AtivoId == id);
 
-            if (imovel == null) return NotFound();
+            if (imovel == null || !UtilizadorTemPermissao(imovel.Ativo)) return NotFound();
 
-            var viewModel = new ImovelArrendadoCreateViewModel
-            {
-                AtivoId = imovel.AtivoId,
-                UtilizadorId = imovel.Ativo.UtilizadorId,
-                DataIni = imovel.Ativo.DataIni,
-                Duracao = imovel.Ativo.Duracao,
-                Imposto = imovel.Ativo.Imposto,
-                Designacao = imovel.Designacao,
-                Localizacao = imovel.Localizacao,
-                ValorImovel = imovel.ValorImovel,
-                ValorRenda = imovel.ValorRenda,
-                ValorMensalCondominio = imovel.ValorMensalCondominio,
-                ValorAnualDespesas = imovel.ValorAnualDespesas
-            };
-
-            return View(viewModel);
+            return View(ToViewModel(imovel));
         }
 
         [HttpPost("Edit/{id}")]
@@ -150,40 +113,30 @@ namespace esii.Controllers
         {
             if (id != model.AtivoId) return NotFound();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var ativo = await _context.Ativofinanceiros.FindAsync(model.AtivoId);
-                    if (ativo == null) return NotFound();
+            if (!ModelState.IsValid) return View(model);
 
-                    ativo.UtilizadorId = model.UtilizadorId;
-                    ativo.DataIni = model.DataIni;
-                    ativo.Duracao = model.Duracao;
-                    ativo.Imposto = model.Imposto;
+            var utilizadorId = GetUtilizadorId();
+            if (utilizadorId == null) return Unauthorized();
 
-                    var imovel = await _context.Imovelarrendados.FindAsync(model.AtivoId);
-                    if (imovel == null) return NotFound();
+            var ativo = await _context.Ativofinanceiros.FindAsync(model.AtivoId);
+            if (ativo == null || ativo.UtilizadorId != utilizadorId) return NotFound();
 
-                    imovel.Designacao = model.Designacao;
-                    imovel.Localizacao = model.Localizacao;
-                    imovel.ValorImovel = model.ValorImovel;
-                    imovel.ValorRenda = model.ValorRenda;
-                    imovel.ValorMensalCondominio = model.ValorMensalCondominio;
-                    imovel.ValorAnualDespesas = model.ValorAnualDespesas;
+            ativo.DataIni = model.DataIni;
+            ativo.Duracao = model.Duracao;
+            ativo.Imposto = model.Imposto;
 
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AtivoExists(model.AtivoId)) return NotFound();
-                    else throw;
-                }
+            var imovel = await _context.Imovelarrendados.FindAsync(model.AtivoId);
+            if (imovel == null) return NotFound();
 
-                return RedirectToAction(nameof(Index));
-            }
+            imovel.Designacao = model.Designacao;
+            imovel.Localizacao = model.Localizacao;
+            imovel.ValorImovel = model.ValorImovel;
+            imovel.ValorRenda = model.ValorRenda;
+            imovel.ValorMensalCondominio = model.ValorMensalCondominio;
+            imovel.ValorAnualDespesas = model.ValorAnualDespesas;
 
-            return View(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet("Delete/{id}")]
@@ -195,34 +148,24 @@ namespace esii.Controllers
                 .Include(i => i.Ativo)
                 .FirstOrDefaultAsync(i => i.AtivoId == id);
 
-            if (imovel == null) return NotFound();
+            if (imovel == null || !UtilizadorTemPermissao(imovel.Ativo)) return NotFound();
 
-            var viewModel = new ImovelArrendadoCreateViewModel
-            {
-                AtivoId = imovel.AtivoId,
-                UtilizadorId = imovel.Ativo.UtilizadorId,
-                DataIni = imovel.Ativo.DataIni,
-                Duracao = imovel.Ativo.Duracao,
-                Imposto = imovel.Ativo.Imposto,
-                Designacao = imovel.Designacao,
-                Localizacao = imovel.Localizacao,
-                ValorImovel = imovel.ValorImovel,
-                ValorRenda = imovel.ValorRenda,
-                ValorMensalCondominio = imovel.ValorMensalCondominio,
-                ValorAnualDespesas = imovel.ValorAnualDespesas
-            };
-
-            return View(viewModel);
+            return View(ToViewModel(imovel));
         }
 
         [HttpPost("Delete/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var utilizadorId = GetUtilizadorId();
+            if (utilizadorId == null) return Unauthorized();
+
             var imovel = await _context.Imovelarrendados
                 .FirstOrDefaultAsync(i => i.AtivoId == id);
             var ativo = await _context.Ativofinanceiros
                 .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (ativo == null || ativo.UtilizadorId != utilizadorId) return NotFound();
 
             if (imovel != null) _context.Imovelarrendados.Remove(imovel);
             if (ativo != null) _context.Ativofinanceiros.Remove(ativo);
@@ -235,8 +178,38 @@ namespace esii.Controllers
         {
             return _context.Ativofinanceiros.Any(a => a.Id == id);
         }
+
+        private int? GetUtilizadorId()
+        {
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            return claim != null ? int.Parse(claim.Value) : (int?)null;
+        }
+
+        private bool UtilizadorTemPermissao(Ativofinanceiro ativo)
+        {
+            var utilizadorId = GetUtilizadorId();
+            return ativo != null && utilizadorId != null && ativo.UtilizadorId == utilizadorId.Value;
+        }
+
+        private ImovelArrendadoCreateViewModel ToViewModel(Imovelarrendado imovel)
+        {
+            return new ImovelArrendadoCreateViewModel
+            {
+                AtivoId = imovel.AtivoId,
+                DataIni = imovel.Ativo.DataIni,
+                Duracao = imovel.Ativo.Duracao,
+                Imposto = imovel.Ativo.Imposto,
+                Designacao = imovel.Designacao,
+                Localizacao = imovel.Localizacao,
+                ValorImovel = imovel.ValorImovel,
+                ValorRenda = imovel.ValorRenda,
+                ValorMensalCondominio = imovel.ValorMensalCondominio,
+                ValorAnualDespesas = imovel.ValorAnualDespesas
+            };
+        }
     }
 }
+
 
 
 

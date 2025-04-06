@@ -27,6 +27,11 @@ namespace esii.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(utilizadorviewmodel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
             var utilizador = new Utilizador
             {
                 Nome = viewModel.Nome,
@@ -42,6 +47,7 @@ namespace esii.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
 
         [HttpGet]
         public IActionResult Login()

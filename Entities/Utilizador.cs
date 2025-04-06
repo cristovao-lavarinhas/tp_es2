@@ -16,6 +16,8 @@ public partial class Utilizador
 
     public decimal? Imposto { get; set; }
 
+    [Required(ErrorMessage = "O NIF é obrigatório.")]
+    [RegularExpression(@"^\d{9}$", ErrorMessage = "O NIF deve conter exatamente 9 dígitos.")]
     public string Nif { get; set; } = null!;
 
     public int TipoId { get; set; }
