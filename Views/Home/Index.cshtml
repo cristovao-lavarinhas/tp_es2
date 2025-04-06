@@ -1,8 +1,110 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Gestor Financeiro Pessoal";
+    var nome = User.Identity?.IsAuthenticated == true ? User.Identity.Name : null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    body {
+        background: linear-gradient(to right, #e3f2fd, #bbdefb);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .hero-container {
+        padding: 4rem 2rem 2rem;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #1565c0;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .welcome-msg {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #2e7d32;
+        margin-top: 1rem;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-weight: bold;
+        color: #1565c0;
+    }
+
+    .btn-card {
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="container hero-container">
+    <h1 class="hero-title">Gestor Financeiro Pessoal</h1>
+    <p class="hero-subtitle">
+        Acompanhe os seus ativos: depósitos a prazo, imóveis arrendados e produtos financeiros de risco.
+    </p>
+
+    @if (nome != null)
+    {
+        <p class="welcome-msg">Bem-vindo, <strong>@nome</strong>!</p>
+    }
+    else
+    {
+        <p class="text-muted">Inicie sessão para aceder e gerir o seu portfólio financeiro.</p>
+        <a class="btn btn-primary mt-3" href="@Url.Action("Login", "Utilizador")">Iniciar Sessão</a>
+        <a class="btn btn-secondary mt-3 ms-2" href="@Url.Action("Create", "Utilizador")">Criar Conta</a>
+    }
 </div>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Depósitos a Prazo</h5>
+                        <p class="card-text">Acompanhe os seus investimentos em depósitos com rentabilidade garantida.</p>
+                        <a href="@Url.Action("Index", "DepositoPrazo")" class="btn btn-outline-primary btn-card">Ver Depósitos</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Imóveis Arrendados</h5>
+                        <p class="card-text">Registe e acompanhe os imóveis e respetivos rendimentos mensais.</p>
+                        <a href="@Url.Action("Index", "ImovelArrendadoCustom")" class="btn btn-outline-primary btn-card">Ver Imóveis</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Produtos Financeiros</h5>
+                        <p class="card-text">Monitore ações, fundos e outros produtos financeiros de risco.</p>
+                        <a href="@Url.Action("Index", "ProdutoFinanceiro")" class="btn btn-outline-primary btn-card">Ver Produtos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
