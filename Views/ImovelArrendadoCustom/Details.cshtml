@@ -4,28 +4,92 @@
     ViewData["Title"] = "Detalhes do Imóvel";
 }
 
-<h2>@ViewData["Title"]</h2>
+<style>
+    body {
+        background: linear-gradient(to right, #e3f2fd, #bbdefb);
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-<dl class="row">
-    <dt class="col-sm-3">Designação</dt>
-    <dd class="col-sm-9">@Model.Designacao</dd>
+    .details-container {
+        background-color: #fff;
+        padding: 2rem 3rem;
+        border-radius: 16px;
+        max-width: 800px;
+        margin: 3rem auto;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
-    <dt class="col-sm-3">Localização</dt>
-    <dd class="col-sm-9">@Model.Localizacao</dd>
+    .details-title {
+        color: #0d47a1;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+        text-align: left;
+    }
 
-    <dt class="col-sm-3">Valor do Imóvel</dt>
-    <dd class="col-sm-9">@Model.ValorImovel</dd>
+    dl dt {
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1rem;
+        margin-top: 0.5rem;
+    }
 
-    <dt class="col-sm-3">Valor da Renda</dt>
-    <dd class="col-sm-9">@Model.ValorRenda</dd>
+    dl dd {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+        color: #444;
+    }
 
-    <dt class="col-sm-3">Valor Condomínio</dt>
-    <dd class="col-sm-9">@Model.ValorMensalCondominio</dd>
+    .details-actions {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
 
-    <dt class="col-sm-3">Despesas Anuais</dt>
-    <dd class="col-sm-9">@Model.ValorAnualDespesas</dd>
-</dl>
+    .btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+</style>
 
-<a class="btn btn-warning" href="@Url.Action("Edit", new { id = Model.AtivoId })">Editar</a>
-<a class="btn btn-secondary" href="@Url.Action("Index")">Voltar</a>
+<div class="details-container">
+    <h2 class="details-title">@ViewData["Title"]</h2>
+
+    <dl class="row">
+        <dt class="col-sm-4">Designação</dt>
+        <dd class="col-sm-8">@Model.Designacao</dd>
+
+        <dt class="col-sm-4">Localização</dt>
+        <dd class="col-sm-8">@Model.Localizacao</dd>
+
+        <dt class="col-sm-4">Valor do Imóvel</dt>
+        <dd class="col-sm-8">@Model.ValorImovel</dd>
+
+        <dt class="col-sm-4">Valor da Renda</dt>
+        <dd class="col-sm-8">@Model.ValorRenda</dd>
+
+        <dt class="col-sm-4">Valor Condomínio</dt>
+        <dd class="col-sm-8">@Model.ValorMensalCondominio</dd>
+
+        <dt class="col-sm-4">Despesas Anuais</dt>
+        <dd class="col-sm-8">@Model.ValorAnualDespesas</dd>
+    </dl>
+
+    <div class="btn-group d-flex justify-content-center gap-3 mt-4">
+        <a class="btn btn-warning" href="@Url.Action("Edit", new { id = Model.AtivoId })">
+            <i class="bi bi-pencil-square"></i> Editar
+        </a>
+        <a class="btn btn-secondary" href="@Url.Action("Index")">
+            <i class="bi bi-arrow-left-circle"></i> Voltar
+        </a>
+    </div>
+</div>
+
+
+
+
+
+
 

@@ -1,30 +1,91 @@
 @model esii.Models.ImovelArrendadoCreateViewModel
 
 @{
-    ViewData["Title"] = "Apagar Imóvel";
+    ViewData["Title"] = "Eliminar Imóvel";
 }
 
-<h2>@ViewData["Title"]</h2>
+<style>
+    body {
+        background: linear-gradient(to right, #e3f2fd, #bbdefb);
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-<p>Tens a certeza que queres apagar o seguinte imóvel?</p>
+    .delete-container {
+        background-color: #fff;
+        padding: 2rem 3rem;
+        border-radius: 16px;
+        max-width: 700px;
+        margin: 3rem auto;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
-<dl class="row">
-    <dt class="col-sm-3">Designação</dt>
-    <dd class="col-sm-9">@Model.Designacao</dd>
+    .delete-title {
+        color: #d32f2f;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        text-align: left;
+    }
 
-    <dt class="col-sm-3">Localização</dt>
-    <dd class="col-sm-9">@Model.Localizacao</dd>
+    dl dt {
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1rem;
+        margin-top: 0.5rem;
+    }
 
-    <dt class="col-sm-3">Valor Imóvel</dt>
-    <dd class="col-sm-9">@Model.ValorImovel</dd>
-</dl>
+    dl dd {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+        color: #444;
+    }
 
-<form asp-action="Delete" asp-route-id="@Model.AtivoId" method="post">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="AtivoId" />
-    <button type="submit" class="btn btn-danger">Apagar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+    .btn-group {
+        display: flex;
+        justify-content: flex-start;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="delete-container">
+    <h2 class="delete-title">@ViewData["Title"]</h2>
+
+    <dl class="row">
+        <dt class="col-sm-4">Designação</dt>
+        <dd class="col-sm-8">@Model.Designacao</dd>
+
+        <dt class="col-sm-4">Localização</dt>
+        <dd class="col-sm-8">@Model.Localizacao</dd>
+
+        <dt class="col-sm-4">Valor do Imóvel</dt>
+        <dd class="col-sm-8">@Model.ValorImovel</dd>
+    </dl>
+
+    <form asp-action="Delete" asp-route-id="@Model.AtivoId" method="post" onsubmit="return confirm('⚠ Esta ação é irreversível.\nTens a certeza que queres eliminar este imóvel?');">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="AtivoId" />
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Eliminar
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left-circle"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+
+
+
 
 
 

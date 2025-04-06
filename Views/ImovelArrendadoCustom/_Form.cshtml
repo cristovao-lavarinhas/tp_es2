@@ -1,38 +1,83 @@
 @model esii.Models.ImovelArrendadoCreateViewModel
 
-<div class="form-group">
-    <label asp-for="DataIni"></label>
-    <input asp-for="DataIni" class="form-control" type="date" />
-</div>
-<div class="form-group">
-    <label asp-for="Duracao"></label>
-    <input asp-for="Duracao" class="form-control" />
-</div>
-<div class="form-group">
-    <label asp-for="Imposto"></label>
-    <input asp-for="Imposto" class="form-control" />
-</div>
-<div class="form-group">
-    <label asp-for="Designacao"></label>
-    <input asp-for="Designacao" class="form-control" />
-</div>
-<div class="form-group">
-    <label asp-for="Localizacao"></label>
-    <input asp-for="Localizacao" class="form-control" />
-</div>
-<div class="form-group">
-    <label asp-for="ValorImovel"></label>
-    <input asp-for="ValorImovel" class="form-control" />
-</div>
-<div class="form-group">
-    <label asp-for="ValorRenda"></label>
-    <input asp-for="ValorRenda" class="form-control" />
-</div>
-<div class="form-group">
-    <label asp-for="ValorMensalCondominio"></label>
-    <input asp-for="ValorMensalCondominio" class="form-control" />
-</div>
-<div class="form-group">
-    <label asp-for="ValorAnualDespesas"></label>
-    <input asp-for="ValorAnualDespesas" class="form-control" />
+<style>
+    .form-container {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        margin-top: 2rem;
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #0d47a1;
+        margin-bottom: 0.4rem;
+        display: block;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        transition: border-color 0.3s ease;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+    }
+</style>
+
+<div class="form-container">
+    <div class="form-group">
+        <label asp-for="DataIni"></label>
+        <input asp-for="DataIni" class="form-control" type="date" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Duracao"></label>
+        <input asp-for="Duracao" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Imposto"></label>
+        <input asp-for="Imposto" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Designacao"></label>
+        <input asp-for="Designacao" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Localizacao"></label>
+        <input asp-for="Localizacao" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ValorImovel"></label>
+        <input asp-for="ValorImovel" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ValorRenda"></label>
+        <input asp-for="ValorRenda" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ValorMensalCondominio"></label>
+        <input asp-for="ValorMensalCondominio" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ValorAnualDespesas"></label>
+        <input asp-for="ValorAnualDespesas" class="form-control" />
+    </div>
 </div>

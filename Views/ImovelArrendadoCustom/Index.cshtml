@@ -4,37 +4,114 @@
     ViewData["Title"] = "Lista de Imóveis Arrendados";
 }
 
-<h1>Imóveis Arrendados</h1>
-
-<p>
-    <a class="btn btn-primary" href="@Url.Action("Create", "ImovelArrendadoCustom")">Novo Imóvel</a>
-</p>
-
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>Designação</th>
-        <th>Localização</th>
-        <th>Valor Imóvel</th>
-        <th>Valor Renda</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Designacao</td>
-            <td>@item.Localizacao</td>
-            <td>@item.ValorImovel</td>
-            <td>@item.ValorRenda</td>
-            <td>
-                <a class="btn btn-sm btn-info" href="@Url.Action("Details", new { id = item.AtivoId })">Detalhes</a>
-                <a class="btn btn-sm btn-warning" href="@Url.Action("Edit", new { id = item.AtivoId })">Editar</a>
-                <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", new { id = item.AtivoId })">Apagar</a>
-            </td>
-        </tr>
+<style>
+    body {
+        background: linear-gradient(to right, #f0f4ff, #e1f5fe);
+        font-family: 'Segoe UI', sans-serif;
     }
-    </tbody>
-</table>
+
+    h1 {
+        color: #0d47a1;
+        font-weight: bold;
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: #1976d2;
+        border-color: #1976d2;
+    }
+
+    .btn-primary:hover {
+        background-color: #1565c0;
+        border-color: #1565c0;
+    }
+
+    .table {
+        background-color: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    thead {
+        background-color: #1976d2;
+        color: white;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .btn-action {
+        margin: 0 2px;
+    }
+
+    .btn-info {
+        background-color: #0288d1;
+        border-color: #0288d1;
+    }
+
+    .btn-warning {
+        background-color: #f9a825;
+        border-color: #f9a825;
+        color: white;
+    }
+
+    .btn-danger {
+        background-color: #e53935;
+        border-color: #e53935;
+    }
+
+    .action-bar {
+        text-align: right;
+        margin-bottom: 1.5rem;
+    }
+</style>
+
+<div class="container mt-5">
+    <h1>Imóveis Arrendados</h1>
+
+    <div class="action-bar">
+        <a class="btn btn-primary" href="@Url.Action("Create", "ImovelArrendadoCustom")">
+            <i class="bi bi-plus-circle me-1"></i> Novo Imóvel
+        </a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Designação</th>
+                <th>Localização</th>
+                <th>Valor Imóvel</th>
+                <th>Valor Renda</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Designacao</td>
+                    <td>@item.Localizacao</td>
+                    <td>@item.ValorImovel.ToString("C")</td>
+                    <td>@item.ValorRenda.ToString("C")</td>
+                    <td>
+                        <a class="btn btn-sm btn-info btn-action" href="@Url.Action("Details", new { id = item.AtivoId })">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a class="btn btn-sm btn-warning btn-action" href="@Url.Action("Edit", new { id = item.AtivoId })">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a class="btn btn-sm btn-danger btn-action" href="@Url.Action("Delete", new { id = item.AtivoId })">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 
