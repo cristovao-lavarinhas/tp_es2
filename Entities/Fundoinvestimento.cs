@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace esii.Entities;
 
 public partial class Fundoinvestimento
 {
-    public int Id { get; set; }
-
+    [Key]
+    [ForeignKey("Ativo")]
     public int AtivoId { get; set; }
 
+    [Required]
     public string Nome { get; set; } = null!;
 
     public decimal MontanteInvestido { get; set; }
@@ -17,3 +18,4 @@ public partial class Fundoinvestimento
 
     public virtual Ativofinanceiro Ativo { get; set; } = null!;
 }
+

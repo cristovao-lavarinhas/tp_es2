@@ -8120,24 +8120,31 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\castr\\.nuget\\packages\\": {}
+    "C:\\Users\\mike2\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\castr\\RiderProjects\\esii\\esii\\esii.csproj",
+      "projectUniqueName": "C:\\Users\\mike2\\OneDrive - Instituto Politécnico de Viana do Castelo\\Desktop\\ES II\\tp_es2\\esii.csproj",
       "projectName": "esii",
-      "projectPath": "C:\\Users\\castr\\RiderProjects\\esii\\esii\\esii.csproj",
-      "packagesPath": "C:\\Users\\castr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\castr\\RiderProjects\\esii\\esii\\obj\\",
+      "projectPath": "C:\\Users\\mike2\\OneDrive - Instituto Politécnico de Viana do Castelo\\Desktop\\ES II\\tp_es2\\esii.csproj",
+      "packagesPath": "C:\\Users\\mike2\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mike2\\OneDrive - Instituto Politécnico de Viana do Castelo\\Desktop\\ES II\\tp_es2\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\castr\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\mike2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -8218,7 +8225,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

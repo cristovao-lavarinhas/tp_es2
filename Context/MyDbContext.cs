@@ -59,88 +59,112 @@ public partial class MyDbContext : DbContext
 
         modelBuilder.Entity<Depositoprazo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("depositoprazo_pkey");
+            entity.HasKey(e => e.AtivoId)
+                .HasName("depositoprazo_pkey");
 
             entity.ToTable("depositoprazo");
 
-            entity.HasIndex(e => e.NumConta, "depositoprazo_num_conta_key").IsUnique();
+            entity.HasIndex(e => e.NumConta, "depositoprazo_num_conta_key")
+                .IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.AtivoId).HasColumnName("ativo_id");
+            entity.Property(e => e.AtivoId)
+                .HasColumnName("id");
+
             entity.Property(e => e.Banco)
                 .HasMaxLength(100)
                 .HasColumnName("banco");
+
             entity.Property(e => e.NumConta)
                 .HasMaxLength(50)
                 .HasColumnName("num_conta");
+
             entity.Property(e => e.TaxaJurosAnual)
                 .HasPrecision(5, 2)
                 .HasColumnName("taxa_juros_anual");
+
             entity.Property(e => e.Titulares)
                 .HasColumnType("character varying")
                 .HasColumnName("titulares");
+
             entity.Property(e => e.Valor)
                 .HasPrecision(15, 2)
                 .HasColumnName("valor");
 
-            entity.HasOne(d => d.Ativo).WithMany(p => p.Depositoprazos)
-                .HasForeignKey(d => d.AtivoId)
-                .HasConstraintName("depositoprazo_ativo_id_fkey");
+            entity.HasOne(d => d.Ativo)
+                .WithOne(a => a.Depositoprazo)
+                .HasForeignKey<Depositoprazo>(d => d.AtivoId)
+                .HasConstraintName("depositoprazo_id_fkey")
+                .OnDelete(DeleteBehavior.Cascade);
         });
-
+        
         modelBuilder.Entity<Fundoinvestimento>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("fundoinvestimento_pkey");
+            entity.HasKey(e => e.AtivoId)
+                .HasName("fundoinvestimento_pkey");
 
             entity.ToTable("fundoinvestimento");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.AtivoId).HasColumnName("ativo_id");
+            entity.Property(e => e.AtivoId)
+                .HasColumnName("id");
+
             entity.Property(e => e.MontanteInvestido)
                 .HasPrecision(15, 2)
                 .HasColumnName("montante_investido");
+
             entity.Property(e => e.Nome)
                 .HasMaxLength(100)
                 .HasColumnName("nome");
+
             entity.Property(e => e.TaxaJuros)
                 .HasPrecision(5, 2)
                 .HasColumnName("taxa_juros");
 
-            entity.HasOne(d => d.Ativo).WithMany(p => p.Fundoinvestimentos)
-                .HasForeignKey(d => d.AtivoId)
-                .HasConstraintName("fundoinvestimento_ativo_id_fkey");
+            entity.HasOne(d => d.Ativo)
+                .WithOne(a => a.Fundoinvestimento)
+                .HasForeignKey<Fundoinvestimento>(d => d.AtivoId)
+                .HasConstraintName("fundoinvestimento_ativo_id_fkey")
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Imovelarrendado>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("imovelarrendado_pkey");
+            entity.HasKey(e => e.AtivoId)
+                .HasName("imovelarrendado_pkey");
 
             entity.ToTable("imovelarrendado");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.AtivoId).HasColumnName("ativo_id");
+            entity.Property(e => e.AtivoId)
+                .HasColumnName("id");
+
             entity.Property(e => e.Designacao)
                 .HasMaxLength(100)
                 .HasColumnName("designacao");
+
             entity.Property(e => e.Localizacao)
                 .HasMaxLength(255)
                 .HasColumnName("localizacao");
-            entity.Property(e => e.ValorAnualDespesas)
-                .HasPrecision(10, 2)
-                .HasColumnName("valor_anual_despesas");
+
             entity.Property(e => e.ValorImovel)
                 .HasPrecision(15, 2)
                 .HasColumnName("valor_imovel");
-            entity.Property(e => e.ValorMensalCondominio)
-                .HasPrecision(10, 2)
-                .HasColumnName("valor_mensal_condominio");
+
             entity.Property(e => e.ValorRenda)
                 .HasPrecision(15, 2)
                 .HasColumnName("valor_renda");
 
-            entity.HasOne(d => d.Ativo).WithMany(p => p.Imovelarrendados)
-                .HasForeignKey(d => d.AtivoId)
-                .HasConstraintName("imovelarrendado_ativo_id_fkey");
+            entity.Property(e => e.ValorMensalCondominio)
+                .HasPrecision(10, 2)
+                .HasColumnName("valor_mensal_condominio");
+
+            entity.Property(e => e.ValorAnualDespesas)
+                .HasPrecision(10, 2)
+                .HasColumnName("valor_anual_despesas");
+
+            entity.HasOne(d => d.Ativo)
+                .WithOne(a => a.Imovelarrendado)
+                .HasForeignKey<Imovelarrendado>(d => d.AtivoId)
+                .HasConstraintName("imovelarrendado_ativo_id_fkey")
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Relatorio>(entity =>

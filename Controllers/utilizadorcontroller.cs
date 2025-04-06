@@ -1,29 +1,31 @@
-﻿using esii.Context;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using esii.Context;
 using esii.Entities;
 using esii.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace esii.Controllers
 {
-    public class utilizadorcontroller : Controller
+    public class UtilizadorController : Controller
     {
         private readonly MyDbContext dbContext;
 
-        public utilizadorcontroller(MyDbContext dbContext)
+        public UtilizadorController(MyDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
-        
+
         [HttpGet]
-        // Tela de Registro
         public IActionResult Create()
         {
             return View();
         }
-        
+
         [HttpPost]
-        public async Task <IActionResult> Create(utilizadorviewmodel viewModel)
+        public async Task<IActionResult> Create(utilizadorviewmodel viewModel)
         {
             var utilizador = new Utilizador
             {
@@ -33,13 +35,14 @@ namespace esii.Controllers
                 Nif = viewModel.Nif,
                 Imposto = 0,
                 TipoId = 1
-                
             };
 
             await dbContext.Utilizadors.AddAsync(utilizador);
             await dbContext.SaveChangesAsync();
-            return RedirectToAction("Index","Home"); // Redireciona para uma página de dashboard
+
+            return RedirectToAction("Index", "Home");
         }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -54,14 +57,37 @@ namespace esii.Controllers
 
             if (utilizador != null)
             {
-                // Simula a criação de uma sessão para o utilizador
-                return RedirectToAction("Index","Home"); // Redireciona para uma página de dashboard
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, utilizador.Id.ToString()),
+                    new Claim(ClaimTypes.Name, utilizador.Nome),
+                    new Claim(ClaimTypes.Email, utilizador.Email)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    });
+
+                return RedirectToAction("Index", "Home");
             }
 
             ModelState.AddModelError("", "Email ou senha incorretos.");
             return View(viewModel);
         }
-    }
 
-    
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Utilizador");
+        }
+    }
 }
+
