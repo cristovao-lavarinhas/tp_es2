@@ -1,0 +1,28 @@
+@model esii.Models.ImovelArrendadoCreateViewModel
+
+@{
+    ViewData["Title"] = "Apagar Imóvel";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Tens a certeza que queres apagar o seguinte imóvel?</p>
+
+<dl class="row">
+    <dt class="col-sm-3">Designação</dt>
+    <dd class="col-sm-9">@Model.Designacao</dd>
+
+    <dt class="col-sm-3">Localização</dt>
+    <dd class="col-sm-9">@Model.Localizacao</dd>
+
+    <dt class="col-sm-3">Valor Imóvel</dt>
+    <dd class="col-sm-9">@Model.ValorImovel</dd>
+</dl>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="AtivoId" />
+    <button type="submit" class="btn btn-danger">Apagar</button>
+    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancelar</a>
+</form>
+

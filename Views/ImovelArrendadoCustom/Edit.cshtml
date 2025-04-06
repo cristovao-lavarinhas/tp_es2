@@ -1,0 +1,17 @@
+@model esii.Models.ImovelArrendadoCreateViewModel
+
+@{
+    ViewData["Title"] = "Editar Imóvel";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="AtivoId" />
+    @Html.Partial("_Form")
+    <button type="submit" class="btn btn-primary">Gravar</button>
+    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancelar</a>
+</form>
+
+

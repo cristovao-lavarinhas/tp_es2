@@ -1,0 +1,40 @@
+@model List<esii.Models.ImovelArrendadoCreateViewModel>
+
+@{
+    ViewData["Title"] = "Lista de Imóveis Arrendados";
+}
+
+<h1>Imóveis Arrendados</h1>
+
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create", "ImovelArrendadoCustom")">Novo Imóvel</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Designação</th>
+        <th>Localização</th>
+        <th>Valor Imóvel</th>
+        <th>Valor Renda</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Designacao</td>
+            <td>@item.Localizacao</td>
+            <td>@item.ValorImovel</td>
+            <td>@item.ValorRenda</td>
+            <td>
+                <a class="btn btn-sm btn-info" href="@Url.Action("Details", new { id = item.AtivoId })">Detalhes</a>
+                <a class="btn btn-sm btn-warning" href="@Url.Action("Edit", new { id = item.AtivoId })">Editar</a>
+                <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", new { id = item.AtivoId })">Apagar</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+

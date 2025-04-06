@@ -1,0 +1,31 @@
+@model esii.Models.ImovelArrendadoCreateViewModel
+
+@{
+    ViewData["Title"] = "Detalhes do Imóvel";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">Designação</dt>
+    <dd class="col-sm-9">@Model.Designacao</dd>
+
+    <dt class="col-sm-3">Localização</dt>
+    <dd class="col-sm-9">@Model.Localizacao</dd>
+
+    <dt class="col-sm-3">Valor do Imóvel</dt>
+    <dd class="col-sm-9">@Model.ValorImovel</dd>
+
+    <dt class="col-sm-3">Valor da Renda</dt>
+    <dd class="col-sm-9">@Model.ValorRenda</dd>
+
+    <dt class="col-sm-3">Valor Condomínio</dt>
+    <dd class="col-sm-9">@Model.ValorMensalCondominio</dd>
+
+    <dt class="col-sm-3">Despesas Anuais</dt>
+    <dd class="col-sm-9">@Model.ValorAnualDespesas</dd>
+</dl>
+
+<a class="btn btn-warning" href="@Url.Action("Edit", new { id = Model.AtivoId })">Editar</a>
+<a class="btn btn-secondary" href="@Url.Action("Index")">Voltar</a>
+
