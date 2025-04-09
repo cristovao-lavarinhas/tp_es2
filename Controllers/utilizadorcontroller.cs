@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using esii.Context;
 using esii.Entities;
@@ -12,10 +13,12 @@ namespace esii.Controllers
     public class UtilizadorController : Controller
     {
         private readonly MyDbContext dbContext;
+        private readonly PasswordHasher<Utilizador> passwordHasher;
 
         public UtilizadorController(MyDbContext dbContext)
         {
             this.dbContext = dbContext;
+            this.passwordHasher = new PasswordHasher<Utilizador>();
         }
 
         [HttpGet]
@@ -36,18 +39,19 @@ namespace esii.Controllers
             {
                 Nome = viewModel.Nome,
                 Email = viewModel.Email,
-                Password = viewModel.Password,
                 Nif = viewModel.Nif,
                 Imposto = 0,
                 TipoId = 1
             };
+
+            // Hash da password
+            utilizador.Password = passwordHasher.HashPassword(utilizador, viewModel.Password);
 
             await dbContext.Utilizadors.AddAsync(utilizador);
             await dbContext.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");
         }
-
 
         [HttpGet]
         public IActionResult Login()
@@ -59,28 +63,33 @@ namespace esii.Controllers
         public async Task<IActionResult> Login(loginviewmodel viewModel)
         {
             var utilizador = await dbContext.Utilizadors
-                .FirstOrDefaultAsync(u => u.Email == viewModel.Email && u.Password == viewModel.Password);
+                .FirstOrDefaultAsync(u => u.Email == viewModel.Email);
 
             if (utilizador != null)
             {
-                var claims = new List<Claim>
+                var result = passwordHasher.VerifyHashedPassword(utilizador, utilizador.Password, viewModel.Password);
+
+                if (result == PasswordVerificationResult.Success)
                 {
-                    new Claim(ClaimTypes.NameIdentifier, utilizador.Id.ToString()),
-                    new Claim(ClaimTypes.Name, utilizador.Nome),
-                    new Claim(ClaimTypes.Email, utilizador.Email)
-                };
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    new AuthenticationProperties
+                    var claims = new List<Claim>
                     {
-                        IsPersistent = true
-                    });
+                        new Claim(ClaimTypes.NameIdentifier, utilizador.Id.ToString()),
+                        new Claim(ClaimTypes.Name, utilizador.Nome),
+                        new Claim(ClaimTypes.Email, utilizador.Email)
+                    };
 
-                return RedirectToAction("Index", "Home");
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        new AuthenticationProperties
+                        {
+                            IsPersistent = true
+                        });
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             ModelState.AddModelError("", "Email ou senha incorretos.");
@@ -96,4 +105,3 @@ namespace esii.Controllers
         }
     }
 }
-
