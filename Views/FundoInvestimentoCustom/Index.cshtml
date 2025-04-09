@@ -1,0 +1,49 @@
+
+@* Views/FundoInvestimentoCustom/Index.cshtml *@
+@model List<esii.Models.FundoInvestimentoCreateViewModel>
+@{
+    ViewData["Title"] = "Lista de Fundos de Investimento";
+}
+
+<div class="container mt-5">
+    <h1>Fundos de Investimento</h1>
+    <div class="action-bar text-end mb-3">
+        <a class="btn btn-primary" href="@Url.Action("Create", "FundoInvestimentoCustom")">
+            <i class="bi bi-plus-circle"></i> Novo Fundo
+        </a>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Montante Investido</th>
+            <th>Taxa de Juro</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.MontanteInvestido.ToString("C")</td>
+                <td>@item.TaxaJuros.ToString("P")</td>
+                <td>
+                    <a class="btn btn-sm btn-info" href="@Url.Action("Details", new { id = item.AtivoId })">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a class="btn btn-sm btn-warning" href="@Url.Action("Edit", new { id = item.AtivoId })">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", new { id = item.AtivoId })">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+
+

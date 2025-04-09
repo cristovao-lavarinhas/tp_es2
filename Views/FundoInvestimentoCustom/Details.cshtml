@@ -1,0 +1,25 @@
+@* Views/FundoInvestimentoCustom/Details.cshtml *@
+@model esii.Models.FundoInvestimentoCreateViewModel
+@{
+    ViewData["Title"] = "Detalhes do Fundo";
+}
+
+<div class="details-container">
+    <h2 class="details-title">@ViewData["Title"]</h2>
+    <dl class="row">
+        <dt class="col-sm-4">Nome</dt>
+        <dd class="col-sm-8">@Model.Nome</dd>
+        <dt class="col-sm-4">Montante Investido</dt>
+        <dd class="col-sm-8">@Model.MontanteInvestido.ToString("C")</dd>
+        <dt class="col-sm-4">Taxa de Juro</dt>
+        <dd class="col-sm-8">@Model.TaxaJuros.ToString("P")</dd>
+    </dl>
+    <div class="btn-group d-flex justify-content-center gap-3 mt-4">
+        <a class="btn btn-warning" href="@Url.Action("Edit", new { id = Model.AtivoId })">
+            <i class="bi bi-pencil-square"></i> Editar
+        </a>
+        <a class="btn btn-secondary" href="@Url.Action("Index")">
+            <i class="bi bi-arrow-left-circle"></i> Voltar
+        </a>
+    </div>
+</div>

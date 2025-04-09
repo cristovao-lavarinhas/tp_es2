@@ -1,0 +1,26 @@
+@* Views/FundoInvestimentoCustom/Create.cshtml *@
+@model esii.Models.FundoInvestimentoCreateViewModel
+@{
+    ViewData["Title"] = "Novo Fundo de Investimento";
+}
+
+<div class="container">
+    <div class="form-container">
+        <h2 class="page-title">@ViewData["Title"]</h2>
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            @Html.Partial("_Form")
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Criar
+                </button>
+                <a class="btn btn-secondary" href="@Url.Action("Index")">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

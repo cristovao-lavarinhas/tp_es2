@@ -1,0 +1,29 @@
+@* Views/FundoInvestimentoCustom/_Form.cshtml *@
+@model esii.Models.FundoInvestimentoCreateViewModel
+
+<div class="form-container">
+    <div class="form-group">
+        <label asp-for="DataIni"></label>
+        <input asp-for="DataIni" class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Duracao"></label>
+        <input asp-for="Duracao" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Imposto"></label>
+        <input asp-for="Imposto" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Nome"></label>
+        <input asp-for="Nome" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="MontanteInvestido"></label>
+        <input asp-for="MontanteInvestido" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TaxaJuros"></label>
+        <input asp-for="TaxaJuros" class="form-control" />
+    </div>
+</div>
