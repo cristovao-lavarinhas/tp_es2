@@ -4,6 +4,42 @@
     ViewData["Title"] = "Novo Fundo de Investimento";
 }
 
+<style>
+    body {
+        background: linear-gradient(to right, #e3f2fd, #bbdefb);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .page-title {
+        color: #0d47a1;
+        font-size: 2.2rem;
+        font-weight: 600;
+        margin-top: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .form-buttons {
+        margin-top: 2rem;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .form-buttons .btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+</style>
+
 <div class="container">
     <div class="form-container">
         <h2 class="page-title">@ViewData["Title"]</h2>

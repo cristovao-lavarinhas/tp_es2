@@ -1,7 +1,6 @@
-@* Views/FundoInvestimentoCustom/Delete.cshtml *@
-@model esii.Models.FundoInvestimentoCreateViewModel
+﻿@model esii.Models.DepositoPrazoCreateViewModel
 @{
-    ViewData["Title"] = "Eliminar Fundo";
+    ViewData["Title"] = "Eliminar Depósito";
 }
 
 <style>
@@ -57,10 +56,10 @@
 <div class="delete-container">
     <h2 class="delete-title">@ViewData["Title"]</h2>
     <dl class="row">
-        <dt class="col-sm-4">Nome</dt>
-        <dd class="col-sm-8">@Model.Nome</dd>
-        <dt class="col-sm-4">Montante Investido</dt>
-        <dd class="col-sm-8">@Model.MontanteInvestido.ToString("C")</dd>
+        <dt class="col-sm-4">Banco</dt>
+        <dd class="col-sm-8">@Model.Banco</dd>
+        <dt class="col-sm-4">Número de Conta</dt>
+        <dd class="col-sm-8">@Model.NumConta</dd>
     </dl>
     <form asp-action="Delete" asp-route-id="@Model.AtivoId" method="post" onsubmit="return confirm('⚠ Esta ação é irreversível. Tens a certeza?');">
         @Html.AntiForgeryToken()
@@ -75,4 +74,3 @@
         </div>
     </form>
 </div>
-

@@ -1,7 +1,6 @@
-@* Views/FundoInvestimentoCustom/Details.cshtml *@
-@model esii.Models.FundoInvestimentoCreateViewModel
+﻿@model esii.Models.DepositoPrazoCreateViewModel
 @{
-    ViewData["Title"] = "Detalhes do Fundo";
+    ViewData["Title"] = "Detalhes do Depósito";
 }
 
 <style>
@@ -57,12 +56,16 @@
 <div class="details-container">
     <h2 class="details-title">@ViewData["Title"]</h2>
     <dl class="row">
-        <dt class="col-sm-4">Nome</dt>
-        <dd class="col-sm-8">@Model.Nome</dd>
-        <dt class="col-sm-4">Montante Investido</dt>
-        <dd class="col-sm-8">@Model.MontanteInvestido.ToString("C")</dd>
-        <dt class="col-sm-4">Taxa de Juro</dt>
-        <dd class="col-sm-8">@Model.TaxaJuros.ToString("P")</dd>
+        <dt class="col-sm-4">Banco</dt>
+        <dd class="col-sm-8">@Model.Banco</dd>
+        <dt class="col-sm-4">Número de Conta</dt>
+        <dd class="col-sm-8">@Model.NumConta</dd>
+        <dt class="col-sm-4">Titulares</dt>
+        <dd class="col-sm-8">@Model.Titulares</dd>
+        <dt class="col-sm-4">Valor</dt>
+        <dd class="col-sm-8">@Model.Valor.ToString("C")</dd>
+        <dt class="col-sm-4">Taxa de Juro Anual</dt>
+        <dd class="col-sm-8">@Model.TaxaJurosAnual.ToString("P")</dd>
     </dl>
     <div class="btn-group d-flex justify-content-center gap-3 mt-4">
         <a class="btn btn-warning" href="@Url.Action("Edit", new { id = Model.AtivoId })">

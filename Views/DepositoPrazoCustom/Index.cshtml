@@ -1,8 +1,6 @@
-
-@* Views/FundoInvestimentoCustom/Index.cshtml *@
-@model List<esii.Models.FundoInvestimentoCreateViewModel>
+﻿@model List<esii.Models.DepositoPrazoCreateViewModel>
 @{
-    ViewData["Title"] = "Lista de Fundos de Investimento";
+    ViewData["Title"] = "Lista de Depósitos a Prazo";
 }
 
 <style>
@@ -72,17 +70,17 @@
 </style>
 
 <div class="container mt-5">
-    <h1>Fundos de Investimento</h1>
+    <h1>Depósitos a Prazo</h1>
     <div class="action-bar text-end mb-3">
-        <a class="btn btn-primary" href="@Url.Action("Create", "FundoInvestimentoCustom")">
-            <i class="bi bi-plus-circle"></i> Novo Fundo
+        <a class="btn btn-primary" href="@Url.Action("Create", "DepositoPrazoCustom")">
+            <i class="bi bi-plus-circle"></i> Novo Depósito
         </a>
     </div>
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Nome</th>
-            <th>Montante Investido</th>
+            <th>Banco</th>
+            <th>Valor</th>
             <th>Taxa de Juro</th>
             <th>Ações</th>
         </tr>
@@ -91,9 +89,9 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Nome</td>
-                <td>@item.MontanteInvestido.ToString("C")</td>
-                <td>@item.TaxaJuros.ToString("P")</td>
+                <td>@item.Banco</td>
+                <td>@item.Valor.ToString("C")</td>
+                <td>@item.TaxaJurosAnual.ToString("P")</td>
                 <td>
                     <a class="btn btn-sm btn-info" href="@Url.Action("Details", new { id = item.AtivoId })">
                         <i class="bi bi-eye"></i>
@@ -110,6 +108,3 @@
         </tbody>
     </table>
 </div>
-
-
-
