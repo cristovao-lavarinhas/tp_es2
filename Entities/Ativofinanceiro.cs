@@ -21,6 +21,8 @@ namespace esii.Entities
         
         public virtual Fundoinvestimento? Fundoinvestimento { get; set; }
         public virtual Utilizador Utilizador { get; set; } = null!;
+        
+        public virtual ICollection<HistoricoAcao> HistoricoAcoes { get; set; } = new List<HistoricoAcao>();
     }
 }
 

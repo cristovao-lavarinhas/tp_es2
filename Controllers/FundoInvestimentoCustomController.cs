@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using esii.Context;
 using esii.Entities;
 using esii.Models;
+using esii.Commands;
 
 namespace esii.Controllers
 {
@@ -65,27 +66,8 @@ namespace esii.Controllers
             var utilizadorId = GetUtilizadorId();
             if (utilizadorId == null) return Unauthorized();
 
-            var ativo = new Ativofinanceiro
-            {
-                UtilizadorId = utilizadorId.Value,
-                DataIni = model.DataIni,
-                Duracao = model.Duracao,
-                Imposto = model.Imposto
-            };
-
-            _context.Ativofinanceiros.Add(ativo);
-            await _context.SaveChangesAsync();
-
-            var fundo = new Fundoinvestimento
-            {
-                AtivoId = ativo.Id,
-                Nome = model.Nome,
-                MontanteInvestido = model.MontanteInvestido,
-                TaxaJuros = model.TaxaJuros
-            };
-
-            _context.Fundoinvestimentos.Add(fundo);
-            await _context.SaveChangesAsync();
+            var command = new CreateFundoInvestimentoCommand(_context, model, utilizadorId.Value);
+            command.Execute();
 
             return RedirectToAction(nameof(Index));
         }
@@ -109,27 +91,14 @@ namespace esii.Controllers
         public async Task<IActionResult> Edit(int id, FundoInvestimentoCreateViewModel model)
         {
             if (id != model.AtivoId) return NotFound();
-
             if (!ModelState.IsValid) return View(model);
 
             var utilizadorId = GetUtilizadorId();
             if (utilizadorId == null) return Unauthorized();
 
-            var ativo = await _context.Ativofinanceiros.FindAsync(model.AtivoId);
-            if (ativo == null || ativo.UtilizadorId != utilizadorId) return NotFound();
+            var command = new EditFundoInvestimentoCommand(_context, model, utilizadorId.Value);
+            command.Execute();
 
-            ativo.DataIni = model.DataIni;
-            ativo.Duracao = model.Duracao;
-            ativo.Imposto = model.Imposto;
-
-            var fundo = await _context.Fundoinvestimentos.FindAsync(model.AtivoId);
-            if (fundo == null) return NotFound();
-
-            fundo.Nome = model.Nome;
-            fundo.MontanteInvestido = model.MontanteInvestido;
-            fundo.TaxaJuros = model.TaxaJuros;
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -154,15 +123,9 @@ namespace esii.Controllers
             var utilizadorId = GetUtilizadorId();
             if (utilizadorId == null) return Unauthorized();
 
-            var fundo = await _context.Fundoinvestimentos.FindAsync(id);
-            var ativo = await _context.Ativofinanceiros.FindAsync(id);
+            var command = new DeleteFundoInvestimentoCommand(_context, id, utilizadorId.Value);
+            command.Execute();
 
-            if (ativo == null || ativo.UtilizadorId != utilizadorId) return NotFound();
-
-            if (fundo != null) _context.Fundoinvestimentos.Remove(fundo);
-            if (ativo != null) _context.Ativofinanceiros.Remove(ativo);
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

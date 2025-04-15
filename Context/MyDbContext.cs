@@ -31,6 +31,11 @@ public partial class MyDbContext : DbContext
     public virtual DbSet<Tipoutilizador> Tipoutilizadors { get; set; }
 
     public virtual DbSet<Utilizador> Utilizadors { get; set; }
+    
+    public virtual DbSet<HistoricoAcao> HistoricoAcoes { get; set; }
+    
+    public virtual DbSet<TipoAcao> TipoAcoes { get; set; }
+
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -250,6 +255,63 @@ public partial class MyDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("utilizador_tipo_id_fkey");
         });
+
+        modelBuilder.Entity<TipoAcao>(entity =>
+        {
+            entity.ToTable("tipoacao");
+            
+            entity.HasKey(e => e.Id).HasName("tipo_acao_pkey");
+
+            entity.HasIndex(e => e.Nome)
+                .IsUnique()
+                .HasDatabaseName("tipo_acao_nome_key");
+
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+
+            entity.Property(e => e.Nome)
+                .IsRequired()
+                .HasMaxLength(100)
+                .HasColumnName("nome");
+        });
+
+        modelBuilder.Entity<HistoricoAcao>(entity =>
+        {
+            entity.ToTable("historicoacao");
+
+            entity.HasKey(e => e.Id).HasName("historicoacao_pkey");
+
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+
+            entity.Property(e => e.DataAcao)
+                .IsRequired()
+                .HasColumnName("dataacao");
+
+            entity.Property(e => e.AtivoId)
+                .HasColumnName("ativofinanceiro_id");
+
+            entity.Property(e => e.Ativo)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("ativo");
+
+            entity.Property(e => e.TipoAcaoId)
+                .HasColumnName("tipoacao_id");
+
+            entity.HasOne(e => e.AtivoFinanceiro)
+                .WithMany(a => a.HistoricoAcoes)
+                .HasForeignKey(e => e.AtivoId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("historicoacao_ativo_fkey");
+
+            entity.HasOne(e => e.TipoAcao)
+                .WithMany(t => t.Historicos)
+                .HasForeignKey(e => e.TipoAcaoId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("historicoacao_tipo_fkey");
+        });
+
 
         OnModelCreatingPartial(modelBuilder);
     }

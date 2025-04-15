@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using esii.Context;
 using esii.Entities;
 using esii.Models;
+using esii.Commands;
 
 namespace esii.Controllers
 {
@@ -55,42 +54,23 @@ namespace esii.Controllers
         {
             return View();
         }
-
+        
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DepositoPrazoCreateViewModel model)
+        public IActionResult Create(DepositoPrazoCreateViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
             var utilizadorId = GetUtilizadorId();
             if (utilizadorId == null) return Unauthorized();
 
-            var ativo = new Ativofinanceiro
-            {
-                UtilizadorId = utilizadorId.Value,
-                DataIni = model.DataIni,
-                Duracao = model.Duracao,
-                Imposto = model.Imposto
-            };
-
-            _context.Ativofinanceiros.Add(ativo);
-            await _context.SaveChangesAsync();
-
-            var deposito = new Depositoprazo
-            {
-                AtivoId = ativo.Id,
-                Valor = model.Valor,
-                Banco = model.Banco,
-                NumConta = model.NumConta,
-                Titulares = model.Titulares,
-                TaxaJurosAnual = model.TaxaJurosAnual
-            };
-
-            _context.Depositoprazos.Add(deposito);
-            await _context.SaveChangesAsync();
+            var command = new CreateDepositoCommand(_context, model, utilizadorId.Value);
+            var executor = new CommandExecutor();
+            executor.Execute(command);
 
             return RedirectToAction(nameof(Index));
         }
+
 
         [HttpGet("Edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
@@ -108,34 +88,20 @@ namespace esii.Controllers
 
         [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, DepositoPrazoCreateViewModel model)
+        public IActionResult Edit(int id, DepositoPrazoCreateViewModel model)
         {
             if (id != model.AtivoId) return NotFound();
-
             if (!ModelState.IsValid) return View(model);
 
             var utilizadorId = GetUtilizadorId();
             if (utilizadorId == null) return Unauthorized();
 
-            var ativo = await _context.Ativofinanceiros.FindAsync(model.AtivoId);
-            if (ativo == null || ativo.UtilizadorId != utilizadorId) return NotFound();
+            var command = new EditDepositoCommand(_context, model, utilizadorId.Value);
+            new CommandExecutor().Execute(command);
 
-            ativo.DataIni = model.DataIni;
-            ativo.Duracao = model.Duracao;
-            ativo.Imposto = model.Imposto;
-
-            var deposito = await _context.Depositoprazos.FindAsync(model.AtivoId);
-            if (deposito == null) return NotFound();
-
-            deposito.Valor = model.Valor;
-            deposito.Banco = model.Banco;
-            deposito.NumConta = model.NumConta;
-            deposito.Titulares = model.Titulares;
-            deposito.TaxaJurosAnual = model.TaxaJurosAnual;
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
@@ -162,13 +128,27 @@ namespace esii.Controllers
             var ativo = await _context.Ativofinanceiros.FindAsync(id);
 
             if (ativo == null || ativo.UtilizadorId != utilizadorId) return NotFound();
-
+            
+            var tipoAcao = await _context.TipoAcoes.FirstOrDefaultAsync(t => t.Nome == "Remoção");
+            if (tipoAcao != null)
+            {
+                _context.HistoricoAcoes.Add(new HistoricoAcao
+                {
+                    TipoAcaoId = tipoAcao.Id,
+                    DataAcao = DateTime.UtcNow,
+                    Ativo = "Depósito",
+                    AtivoId = ativo.Id
+                });
+                await _context.SaveChangesAsync(); 
+            }
+            
             if (deposito != null) _context.Depositoprazos.Remove(deposito);
-            if (ativo != null) _context.Ativofinanceiros.Remove(ativo);
+            _context.Ativofinanceiros.Remove(ativo);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private DepositoPrazoCreateViewModel ToViewModel(Depositoprazo deposito)
         {
@@ -185,7 +165,7 @@ namespace esii.Controllers
                 TaxaJurosAnual = deposito.TaxaJurosAnual
             };
         }
-
+        
         private int? GetUtilizadorId()
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
