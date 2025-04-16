@@ -1,0 +1,152 @@
+﻿@model List<esii.Models.HistoricoAcaoViewModel>
+
+@{
+    ViewData["Title"] = "Histórico de Ações";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #f0f4ff, #e1f5fe);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    h1 {
+        color: #0d47a1;
+        font-weight: bold;
+        margin: 1rem 0 2rem;
+        text-align: center;
+    }
+
+    .table {
+        background-color: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        margin-top: 2rem;
+    }
+
+    thead {
+        background-color: #1976d2;
+        color: white;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 2rem;
+    }
+
+    thead th a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    thead th a .ms-1 {
+        font-size: 14px;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    .text-muted {
+        color: #757575;
+    }
+
+    .text-dark {
+        color: #000;
+    }
+
+    thead th a .ms-1.text-dark {
+        color: #000;
+    }
+
+    thead th a .ms-1.text-muted {
+        color: #757575;
+    }
+</style>
+
+@functions {
+    string NextOrder(string column)
+    {
+        var currentSort = ViewBag.CurrentSort as string ?? "";
+        var currentOrder = ViewBag.CurrentOrder as string ?? "asc";
+        return (currentSort == column && currentOrder == "asc") ? "desc" : "asc";
+    }
+
+    string GetSortClass(string column)
+    {
+        var currentSort = ViewBag.CurrentSort as string ?? "";
+        var currentOrder = ViewBag.CurrentOrder as string ?? "asc";
+        if (currentSort == column)
+        {
+            return currentOrder == "asc" ? "text-dark" : "text-muted";
+        }
+        return "text-muted";
+    }
+
+    string GetArrowDirection(string column)
+    {
+        var currentSort = ViewBag.CurrentSort as string ?? "";
+        var currentOrder = ViewBag.CurrentOrder as string ?? "asc";
+        if (currentSort == column)
+        {
+            return currentOrder == "asc" ? "↑" : "↓";
+        }
+        return "";
+    }
+}
+
+
+<div class="container">
+    <h1>Histórico de Ações</h1>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sort="TipoAcao" asp-route-order="@NextOrder("TipoAcao")">
+                    Tipo de Ação
+                    <span class="ms-1 @GetSortClass("TipoAcao")">@GetArrowDirection("TipoAcao")</span>
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sort="DataHora" asp-route-order="@NextOrder("DataHora")">
+                    Data/Hora
+                    <span class="ms-1 @GetSortClass("DataHora")">@GetArrowDirection("DataHora")</span>
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sort="Ativo" asp-route-order="@NextOrder("Ativo")">
+                    Ativo
+                    <span class="ms-1 @GetSortClass("Ativo")">@GetArrowDirection("Ativo")</span>
+                </a>
+            </th>
+            <th>ID do Ativo</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TipoAcao</td>
+                    <td>@item.DataHora.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.Ativo</td>
+                    <td>@item.AtivoId</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">Nenhuma ação encontrada.</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
