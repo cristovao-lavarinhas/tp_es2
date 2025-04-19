@@ -17,7 +17,6 @@ namespace esii.Commands
             _model = model;
             _utilizadorId = utilizadorId;
         }
-
         public void Execute()
         {
             var ativo = new Ativofinanceiro
@@ -27,10 +26,8 @@ namespace esii.Commands
                 Duracao = _model.Duracao,
                 Imposto = _model.Imposto
             };
-
             _context.Ativofinanceiros.Add(ativo);
             _context.SaveChanges();
-            
             var deposito = new Depositoprazo
             {
                 AtivoId = ativo.Id,
@@ -40,10 +37,8 @@ namespace esii.Commands
                 Titulares = _model.Titulares,
                 TaxaJurosAnual = _model.TaxaJurosAnual
             };
-
             _context.Depositoprazos.Add(deposito);
             _context.SaveChanges();
-            
             var tipoAcao = _context.TipoAcoes.FirstOrDefault(t => t.Nome == "Criação");
             if (tipoAcao != null)
             {
@@ -54,13 +49,9 @@ namespace esii.Commands
                     Ativo = "Depósito a Prazo",
                     AtivoId = ativo.Id
                 });
-
                 _context.SaveChanges();
-
-
                 _context.SaveChanges();
             }
-
             else
             {
                 throw new InvalidOperationException("Tipo de ação 'Criação' não encontrado.");

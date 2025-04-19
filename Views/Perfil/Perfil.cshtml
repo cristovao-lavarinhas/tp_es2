@@ -1,0 +1,197 @@
+﻿@model esii.Entities.Utilizador
+
+@{
+    ViewData["Title"] = "Perfil";
+    var erroEmail = TempData["ErroEmail"] as string;
+    var erroPassword = TempData["ErroPassword"] as string;
+    var abrirModal = TempData["AbrirModal"] as string;
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #f0f4ff, #e1f5fe);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    h2 {
+        color: #0d47a1;
+        font-weight: bold;
+        margin-top: 2rem;
+    }
+
+    .card {
+        width: 70%;
+        margin: 2rem auto;
+        background-color: white;
+        padding: 2rem 3rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .card h2 {
+        margin-bottom: 1.5rem;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .btn-warning {
+        padding: 0.4rem 1rem;
+        background-color: #fbc02d;
+        color: #333;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .btn-warning:hover {
+        background-color: #f9a825;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal.show {
+        display: block;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 30%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        position: relative;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        font-size: 26px;
+        font-weight: bold;
+        color: #444;
+        cursor: pointer;
+    }
+
+    .modal label {
+        display: block;
+        margin-top: 1rem;
+    }
+
+    .modal input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-top: 0.2rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .btn-save {
+        margin-top: 1.5rem;
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .invalid-feedback {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 0.3rem;
+    }
+</style>
+
+<h2 style="margin-left: 15%;">Olá, @Model.Nome!</h2>
+
+<div class="card">
+    <h2>Dados da Conta</h2>
+
+    <div class="mb-3"><strong>Nome:</strong> @Model.Nome</div>
+
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+        <div><strong>Email:</strong> @Model.Email</div>
+        <button class="btn-warning" onclick="abrirModal('editarEmailModal')">Editar</button>
+    </div>
+
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+        <div><strong>Palavra-passe:</strong> ********</div>
+        <button class="btn-warning" onclick="abrirModal('editarPasswordModal')">Alterar</button>
+    </div>
+
+    <div class="mb-3"><strong>NIF:</strong> @Model.Nif</div>
+    <div class="mb-3"><strong>Tipo:</strong> @Model.Tipo.Descricao</div>
+
+    <form asp-action="DeleteAccountConfirm" method="post">
+        <button type="submit" class="btn-save" style="background-color: red;">Eliminar Conta</button>
+    </form>
+</div>
+
+<!-- Modal Email -->
+<div class="modal @(abrirModal == "email" ? "show" : "")" id="editarEmailModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="fecharModal('editarEmailModal')">&times;</span>
+        <form asp-action="AlterarEmail" method="post">
+            <label for="novoEmail">Novo Email</label>
+            <input type="email" name="novoEmail" required class="@(erroEmail != null ? "is-invalid" : "")" />
+            @if (!string.IsNullOrEmpty(erroEmail))
+            {
+                <div class="invalid-feedback">@erroEmail</div>
+            }
+
+            <label for="senhaAtual">Palavra-passe Atual</label>
+            <input type="password" name="senhaAtual" required class="@(erroEmail != null ? "is-invalid" : "")" />
+
+            <button type="submit" class="btn-save">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Password -->
+<div class="modal @(abrirModal == "password" ? "show" : "")" id="editarPasswordModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="fecharModal('editarPasswordModal')">&times;</span>
+        <form asp-action="AlterarPassword" method="post">
+            <label for="passwordAtual">Palavra-passe Atual</label>
+            <input type="password" name="passwordAtual" required class="@(erroPassword != null ? "is-invalid" : "")" />
+
+            <label for="novaPassword">Nova Palavra-passe</label>
+            <input type="password" name="novaPassword" required class="@(erroPassword != null ? "is-invalid" : "")" />
+
+            <label for="confirmarPassword">Confirmar Nova Palavra-passe</label>
+            <input type="password" name="confirmarPassword" required class="@(erroPassword != null ? "is-invalid" : "")" />
+            @if (!string.IsNullOrEmpty(erroPassword))
+            {
+                <div class="invalid-feedback">@erroPassword</div>
+            }
+
+            <button type="submit" class="btn-save">Alterar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function abrirModal(id) {
+        document.getElementById(id).classList.add('show');
+    }
+
+    function fecharModal(id) {
+        document.getElementById(id).classList.remove('show');
+    }
+
+    // abrir automaticamente com base no TempData
+    const modalToOpen = '@abrirModal';
+    if (modalToOpen === 'email') abrirModal('editarEmailModal');
+    if (modalToOpen === 'password') abrirModal('editarPasswordModal');
+</script>

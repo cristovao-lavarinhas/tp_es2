@@ -19,7 +19,6 @@ namespace esii.Commands
             _model = model;
             _utilizadorId = utilizadorId;
         }
-
         public void Execute()
         {
             var ativo = new Ativofinanceiro
@@ -29,10 +28,8 @@ namespace esii.Commands
                 Duracao = _model.Duracao,
                 Imposto = _model.Imposto
             };
-
             _context.Ativofinanceiros.Add(ativo);
             _context.SaveChanges();
-
             var fundo = new Fundoinvestimento
             {
                 AtivoId = ativo.Id,
@@ -40,10 +37,8 @@ namespace esii.Commands
                 MontanteInvestido = _model.MontanteInvestido,
                 TaxaJuros = _model.TaxaJuros
             };
-
             _context.Fundoinvestimentos.Add(fundo);
             _context.SaveChanges();
-
             var tipoAcao = _context.TipoAcoes.FirstOrDefault(t => t.Nome == "Criação");
             if (tipoAcao != null)
             {

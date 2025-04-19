@@ -1,0 +1,16 @@
+﻿@model esii.Entities.Utilizador
+
+@{
+    ViewData["Title"] = "Eliminar Conta";
+}
+
+<h2>Tem a certeza que deseja eliminar a sua conta?</h2>
+
+<div class="alert alert-danger">
+    Esta ação é <strong>irreversível</strong>! Todos os seus dados serão permanentemente apagados.
+</div>
+
+<form asp-action="DeleteAccountConfirm" method="post">
+    <button type="submit" class="btn btn-danger">Eliminar Conta</button>
+    <a asp-action="Perfil" class="btn btn-secondary">Cancelar</a>
+</form>
