@@ -4,21 +4,29 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using esii.Context;
 using esii.Entities;
 using esii.Models;
+using esii.stratagies;
+using esii.stratagies.Email;
 
 namespace esii.Controllers
 {
     public class UtilizadorController : Controller
     {
-        private readonly MyDbContext dbContext;
+        private readonly MyDbContext _dbContext;
         private readonly PasswordHasher<Utilizador> passwordHasher;
+        private readonly LoginContext _loginContext;
+        private readonly IEmailSender _emailSender;
 
-        public UtilizadorController(MyDbContext dbContext)
+        public UtilizadorController(MyDbContext dbContext, LoginContext loginContext, IEmailSender emailSender)
         {
-            this.dbContext = dbContext;
-            this.passwordHasher = new PasswordHasher<Utilizador>();
+            _dbContext = dbContext;
+            passwordHasher = new PasswordHasher<Utilizador>();
+            _loginContext = loginContext;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -40,6 +48,7 @@ namespace esii.Controllers
                 Nome = viewModel.Nome,
                 Email = viewModel.Email,
                 Nif = viewModel.Nif,
+                Pin = viewModel.Pin,
                 Imposto = 0,
                 TipoId = 1
             };
@@ -47,8 +56,15 @@ namespace esii.Controllers
             // Hash da password
             utilizador.Password = passwordHasher.HashPassword(utilizador, viewModel.Password);
 
-            await dbContext.Utilizadors.AddAsync(utilizador);
-            await dbContext.SaveChangesAsync();
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                var pinBytes = System.Text.Encoding.UTF8.GetBytes(viewModel.Pin);
+                var pinHashBytes = sha256.ComputeHash(pinBytes);
+                utilizador.Pin = Convert.ToBase64String(pinHashBytes);  // Store hashed PIN
+            }
+            
+            await _dbContext.Utilizadors.AddAsync(utilizador);
+            await _dbContext.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");
         }
@@ -62,38 +78,44 @@ namespace esii.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(loginviewmodel viewModel)
         {
-            var utilizador = await dbContext.Utilizadors
-                .FirstOrDefaultAsync(u => u.Email == viewModel.Email);
-
-            if (utilizador != null)
+            
+            var strategy = _loginContext.GetStrategy(viewModel.Metodo);
+    
+            if (strategy == null || !await strategy.LoginAsync(HttpContext, viewModel))
             {
-                var result = passwordHasher.VerifyHashedPassword(utilizador, utilizador.Password, viewModel.Password);
-
-                if (result == PasswordVerificationResult.Success)
-                {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, utilizador.Id.ToString()),
-                        new Claim(ClaimTypes.Name, utilizador.Nome),
-                        new Claim(ClaimTypes.Email, utilizador.Email)
-                    };
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity),
-                        new AuthenticationProperties
-                        {
-                            IsPersistent = true
-                        });
-
-                    return RedirectToAction("Index", "Home");
-                }
+                ModelState.AddModelError("", "Código inválido, expirado ou credenciais incorretas.");
+                return View(viewModel);
             }
 
-            ModelState.AddModelError("", "Email ou senha incorretos.");
-            return View(viewModel);
+            return RedirectToAction("Index", "Home");
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> SendOtpCode(string email)
+        {
+            var user = await _dbContext.Utilizadors.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+            {
+                return NotFound("Utilizador não encontrado.");
+            }
+
+            // Geração de OTP
+            var otpCode = new Random().Next(100000, 999999).ToString();
+    
+            // Hash do código OTP antes de armazenar
+            using var sha256 = SHA256.Create();
+            var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(otpCode));
+            var hashedOtp = Convert.ToBase64String(hashBytes);
+
+            user.OTPCode = hashedOtp;
+            user.OTPExpiry = DateTime.UtcNow.AddMinutes(5);
+
+            await _dbContext.SaveChangesAsync();
+
+            var message = $"Seu código OTP é: {otpCode}. Ele expira em 5 minutos.";
+
+            await _emailSender.SendEmailAsync(user.Email, "Código OTP", message);
+            return Ok();
         }
 
         [HttpPost]

@@ -14,6 +14,9 @@ namespace esii.Models
         [Required(ErrorMessage = "A password é obrigatória.")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
+        public string Metodo { get; set; } = "password";
+        
+        public string? Pin { get; set; }
 
         [Required(ErrorMessage = "O NIF é obrigatório.")]
         [RegularExpression(@"^\d{9}$", ErrorMessage = "O NIF deve ter exatamente 9 dígitos.")]

@@ -13,6 +13,12 @@ public partial class Utilizador
     public string Email { get; set; } = null!;
 
     public string Password { get; set; } = null!;
+    
+    public string? Pin { get; set; }
+    
+    public string? OTPCode { get; set; }
+    
+    public DateTime? OTPExpiry { get; set; }
 
     public decimal? Imposto { get; set; }
 
