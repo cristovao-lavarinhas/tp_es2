@@ -59,6 +59,8 @@
     </div>
     <div class="form-group">
         <label asp-for="TaxaJuros"></label>
-        <input asp-for="TaxaJuros" class="form-control" />
+        <input asp-for="TaxaJuros" class="form-control"
+               step="0.000001"
+               placeholder="Ex.: -0.2 (bonificação) ou 0.5 (juros)" />
     </div>
 </div>

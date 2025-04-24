@@ -66,6 +66,9 @@
     </div>
     <div class="form-group">
         <label asp-for="TaxaJurosAnual"></label>
-        <input asp-for="TaxaJurosAnual" class="form-control" />
+        <input asp-for="TaxaJurosAnual" class="form-control"
+               step="0.0001"
+               placeholder="Ex.: -0.5 (negativo) ou 0.8 (positivo)" />
+        <span asp-validation-for="TaxaJurosAnual" class="text-danger"></span>
     </div>
 </div>
