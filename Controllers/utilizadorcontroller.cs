@@ -11,6 +11,11 @@ using esii.Entities;
 using esii.Models;
 using esii.stratagies;
 using esii.stratagies.Email;
+<<<<<<< HEAD
+=======
+using Microsoft.AspNetCore.Identity.UI.Services;
+using IEmailSender = esii.stratagies.Email.IEmailSender;
+>>>>>>> 8c7bf6a (update)
 
 namespace esii.Controllers
 {

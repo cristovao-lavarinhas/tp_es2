@@ -17,73 +17,141 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = esii
 build_property.RootNamespace = esii
-build_property.ProjectDir = C:\Users\mike2\OneDrive - Instituto Politécnico de Viana do Castelo\Desktop\ES II\tp_es2\
+build_property.ProjectDir = C:\Users\crist\Desktop\es2correto\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\mike2\OneDrive - Instituto Politécnico de Viana do Castelo\Desktop\ES II\tp_es2
+build_property.MSBuildProjectDirectory = C:\Users\crist\Desktop\es2correto
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/Home/Index.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/DepositoPrazoCustom/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwb3NpdG9QcmF6b0N1c3RvbVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/DepositoPrazoCustom/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwb3NpdG9QcmF6b0N1c3RvbVxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/DepositoPrazoCustom/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwb3NpdG9QcmF6b0N1c3RvbVxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/DepositoPrazoCustom/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwb3NpdG9QcmF6b0N1c3RvbVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/DepositoPrazoCustom/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwb3NpdG9QcmF6b0N1c3RvbVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/DepositoPrazoCustom/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwb3NpdG9QcmF6b0N1c3RvbVxfRm9ybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/FundoInvestimentoCustom/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnVuZG9JbnZlc3RpbWVudG9DdXN0b21cQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/FundoInvestimentoCustom/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnVuZG9JbnZlc3RpbWVudG9DdXN0b21cRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/FundoInvestimentoCustom/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnVuZG9JbnZlc3RpbWVudG9DdXN0b21cRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/FundoInvestimentoCustom/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnVuZG9JbnZlc3RpbWVudG9DdXN0b21cRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/FundoInvestimentoCustom/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnVuZG9JbnZlc3RpbWVudG9DdXN0b21cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/FundoInvestimentoCustom/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnVuZG9JbnZlc3RpbWVudG9DdXN0b21cX0Zvcm0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/Historico/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGlzdG9yaWNvXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/Home/Privacy.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/ImovelArrendadoCustom/Create.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/ImovelArrendadoCustom/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1vdmVsQXJyZW5kYWRvQ3VzdG9tXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/ImovelArrendadoCustom/Delete.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/ImovelArrendadoCustom/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1vdmVsQXJyZW5kYWRvQ3VzdG9tXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/ImovelArrendadoCustom/Details.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/ImovelArrendadoCustom/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1vdmVsQXJyZW5kYWRvQ3VzdG9tXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/ImovelArrendadoCustom/Edit.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/ImovelArrendadoCustom/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1vdmVsQXJyZW5kYWRvQ3VzdG9tXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/ImovelArrendadoCustom/Index.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/ImovelArrendadoCustom/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1vdmVsQXJyZW5kYWRvQ3VzdG9tXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/ImovelArrendadoCustom/_Form.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/ImovelArrendadoCustom/_Form.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1vdmVsQXJyZW5kYWRvQ3VzdG9tXF9Gb3JtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/Shared/Error.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/Perfil/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyZmlsXENoYW5nZVBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/Perfil/DeleteAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyZmlsXERlbGV0ZUFjY291bnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/Perfil/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyZmlsXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/Perfil/Perfil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyZmlsXFBlcmZpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/crist/Desktop/es2correto/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/Utilizador/Create.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/Utilizador/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXRpbGl6YWRvclxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/Utilizador/Login.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/Utilizador/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXRpbGl6YWRvclxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/_ViewImports.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/_ViewStart.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mike2/OneDrive - Instituto Politécnico de Viana do Castelo/Desktop/ES II/tp_es2/Views/Shared/_Layout.cshtml]
+[C:/Users/crist/Desktop/es2correto/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-14xh39wwwm

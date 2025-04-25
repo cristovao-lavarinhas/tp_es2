@@ -35,7 +35,9 @@ public partial class MyDbContext : DbContext
     public virtual DbSet<HistoricoAcao> HistoricoAcoes { get; set; }
     
     public virtual DbSet<TipoAcao> TipoAcoes { get; set; }
-
+    public virtual DbSet<TaxaJuroMensal> TaxaJuroMensal { get; set; }
+        
+    public virtual DbSet<JurosCompostos> JurosCompostos { get; set; }
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -312,6 +314,22 @@ public partial class MyDbContext : DbContext
                 .HasConstraintName("historicoacao_tipo_fkey");
         });
 
+        modelBuilder.Entity<TaxaJuroMensal>(entity =>
+        {
+            entity.ToTable("taxa_juromensal"); // <- este é o nome da tabela real na base de dados
+
+            entity.HasKey(e => e.Id).HasName("taxa_juromensal_pkey");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Mes).HasColumnName("mes");
+            entity.Property(e => e.Ano).HasColumnName("ano");
+            entity.Property(e => e.Taxa)
+                .HasPrecision(5, 2)
+                .HasColumnName("taxa");
+            entity.Property(e => e.Descricao)
+                .HasMaxLength(255)
+                .HasColumnName("descricao");
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }

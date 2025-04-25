@@ -1,0 +1,36 @@
+﻿@model esii.Models.LucroViewModel
+
+@{
+ViewData["Title"] = "Simulação de Lucro";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Simular" method="post">
+    <div class="form-group">
+        <label>Capital Inicial (€)</label>
+        <input asp-for="CapitalInicial" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Montante Final (€)</label>
+        <input asp-for="MontanteFinal" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Taxa de Imposto (%)</label>
+        <input asp-for="TaxaImposto" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Calcular Lucro</button>
+</form>
+
+@if (Model != null && Model.LucroLiquido != 0)
+{
+    <div class="mt-4 alert alert-success">
+        <p><strong>Lucro Bruto:</strong> @Model.LucroBruto €</p>
+        <p><strong>Imposto Aplicado:</strong> @Model.ImpostoValor €</p>
+        <p><strong>Lucro Líquido:</strong> <span class="text-success">@Model.LucroLiquido €</span></p>
+    </div>
+}

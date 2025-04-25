@@ -1,0 +1,14 @@
+﻿@model esii.Entities.TaxaJuroMensal
+@{
+    ViewData["Title"] = "Eliminar Taxa";
+}
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <p>Confirma que queres eliminar a taxa de @Model.Mes/@Model.Ano com @Model.Taxa%?</p>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
