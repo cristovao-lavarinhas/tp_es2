@@ -178,6 +178,11 @@ ALTER TABLE IF EXISTS public.utilizador
     ON UPDATE NO ACTION
        ON DELETE NO ACTION;
 
+ALTER TABLE IF EXISTS public.utilizador
+    ADD COLUMN pin VARCHAR(255),
+    ADD COLUMN otp_code VARCHAR(255),
+    ADD COLUMN otp_expiry TIMESTAMP;
+
 END;
 
 

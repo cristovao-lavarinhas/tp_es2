@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Relatório de Lucros";
+}
+
+<h2 class="mb-4">Relatório de Lucros</h2>
+
+<div class="container">
+    <form id="relatorioForm" class="row g-3">
+        <div class="col-md-4">
+            <label for="dataInicio" class="form-label">Data Início</label>
+            <input type="date" id="dataInicio" class="form-control" required />
+        </div>
+        <div class="col-md-4">
+            <label for="dataFim" class="form-label">Data Fim</label>
+            <input type="date" id="dataFim" class="form-control" required />
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Gerar Relatório</button>
+        </div>
+    </form>
+
+    <div id="resultadoRelatorio" class="mt-4"></div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("relatorioForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const dataInicio = document.getElementById("dataInicio").value;
+            const dataFim = document.getElementById("dataFim").value;
+
+            const resposta = await fetch(`/api/relatorio?inicio=${dataInicio}&fim=${dataFim}`);
+            const resumo = await resposta.json();
+
+            const container = document.getElementById("resultadoRelatorio");
+            container.innerHTML = `
+                <h5>Lucros</h5>
+                <p><strong>Bruto:</strong> ${resumo.lucroBruto.toFixed(2)} €</p>
+                <p><strong>Líquido:</strong> ${resumo.lucroLiquido.toFixed(2)} €</p>
+                <p><strong>Média Mensal Bruta:</strong> ${resumo.mensalBruto.toFixed(2)} €</p>
+                <p><strong>Média Mensal Líquida:</strong> ${resumo.mensalLiquido.toFixed(2)} €</p>
+
+                <h5>Ativos Incluídos:</h5>
+                <ul>
+                    ${resumo.ativos.map(a => `<li>${a.tipo} - ${a.nome} (${a.dataInicio.split('T')[0]})</li>`).join('')}
+                </ul>
+
+                <a href="/api/relatorio/pdf?inicio=${dataInicio}&fim=${dataFim}" class="btn btn-success mt-3" target="_blank">
+                    Exportar PDF
+                </a>
+            `;
+        });
+    </script>
+}

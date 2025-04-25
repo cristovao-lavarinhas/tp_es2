@@ -1,4 +1,8 @@
 using esii.Context;
+using esii.stratagies;
+using esii.stratagies.Email;
+using esii.stratagies.Password;
+using esii.stratagies.Pin;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +17,19 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 
 // Adiciona suporte a sessões
 builder.Services.AddSession();
+
+
+builder.Services.AddScoped<PasswordLoginStrategy>();
+builder.Services.AddScoped<PinLoginStrategy>();
+builder.Services.AddScoped<OTPLoginStrategy>();
+builder.Services.AddScoped<LoginContext>(provider => new LoginContext(new Dictionary<string, ILoginStrategy>
+{
+    { "password", provider.GetRequiredService<PasswordLoginStrategy>() },
+    { "pin", provider.GetRequiredService<PinLoginStrategy>() },
+    { "otp", provider.GetRequiredService<OTPLoginStrategy>() }
+}));
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 
 // Adiciona autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

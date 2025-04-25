@@ -1,7 +1,36 @@
 ﻿@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore
+@inject esii.Context.MyDbContext _context
+
 @{
     ViewData["Title"] = "Gestor Financeiro Pessoal";
     var nome = User.Identity?.IsAuthenticated == true ? User.Identity.Name : null;
+    
+    var utilizadorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+    var utilizador = _context.Utilizadors.FirstOrDefault(u => u.Id == utilizadorId);
+    var taxaImposto = utilizador?.Imposto ?? 28.0M;
+
+    var depositos = _context.Depositoprazos
+        .Where(d => d.Ativo.UtilizadorId == utilizadorId)
+        .Include(d => d.Ativo)
+        .ToList();
+
+    decimal lucroBrutoTotal = 0;
+    decimal impostoTotal = 0;
+    decimal lucroLiquidoTotal = 0;
+
+    foreach (var dep in depositos)
+    {
+        var anos = dep.Ativo?.Duracao ?? 0;
+        var montanteFinal = dep.Valor * (decimal)Math.Pow((double)(1 + dep.TaxaJurosAnual / 100), anos);
+        var lucroBruto = montanteFinal - dep.Valor;
+        var imposto = lucroBruto * (taxaImposto / 100);
+        var lucroLiquido = lucroBruto - imposto;
+
+        lucroBrutoTotal += lucroBruto;
+        impostoTotal += imposto;
+        lucroLiquidoTotal += lucroLiquido;
+    }
 }
 
 <style>
@@ -105,6 +134,55 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Relatório de Lucros</h5>
+                        <p class="card-text">Visualize os lucros obtidos com os seus ativos financeiros.</p>
+                        <a href="@Url.Action("Relatorio", "Relatorio")" class="btn btn-outline-success btn-card">Ver Relatório</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Simulador de Juros Compostos</h5>
+                        <p class="card-text">Faça simulações de crescimento dos seus investimentos com capital, taxa e duração.</p>
+                        <a href="@Url.Action("Simular", "JurosCompostos")" class="btn btn-outline-info btn-card">Simular Juros</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Taxas de Juro Mensais</h5>
+                        <p class="card-text">Configure ou atualize taxas de juro mensais para simulações e cálculos financeiros.</p>
+                        <a href="@Url.Action("Index", "TaxaJuroMensal")" class="btn btn-outline-dark btn-card">Ver Taxas</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Lucro dos Depósitos</h5>
+                        <p class="card-text mb-2">
+                            <strong>Bruto:</strong> @lucroBrutoTotal.ToString("C")
+                        </p>
+                        <p class="card-text mb-2">
+                            <strong>Imposto (@taxaImposto.ToString("F1")%):</strong> @impostoTotal.ToString("C")
+                        </p>
+                        <p class="card-text text-success fw-bold">
+                            <strong>Líquido:</strong> @lucroLiquidoTotal.ToString("C")
+                        </p>
+                        <a href="@Url.Action("Simular", "Lucro")" class="btn btn-outline-success btn-card mt-2">Ver Detalhes</a>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 }

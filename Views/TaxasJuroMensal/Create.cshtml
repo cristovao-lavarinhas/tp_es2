@@ -1,0 +1,15 @@
+﻿@model esii.Models.TaxaJuroMensalViewModel
+@{
+    ViewData["Title"] = "Nova Taxa Mensal";
+}
+<div class="container">
+    <div class="form-container">
+        <h2>@ViewData["Title"]</h2>
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            @Html.Partial("_Form")
+            <button type="submit" class="btn btn-primary">Criar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>

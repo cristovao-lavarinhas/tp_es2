@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mike2\\OneDrive - Instituto Politécnico de Viana do Castelo\\Desktop\\ES II\\tp_es2\\esii.csproj": {}
+    "C:\\Users\\crist\\Desktop\\E.Informatica_estg\\2ano\\2s\\ES2\\tp_es2\\esii.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mike2\\OneDrive - Instituto Politécnico de Viana do Castelo\\Desktop\\ES II\\tp_es2\\esii.csproj": {
+    "C:\\Users\\crist\\Desktop\\E.Informatica_estg\\2ano\\2s\\ES2\\tp_es2\\esii.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mike2\\OneDrive - Instituto Politécnico de Viana do Castelo\\Desktop\\ES II\\tp_es2\\esii.csproj",
+        "projectUniqueName": "C:\\Users\\crist\\Desktop\\E.Informatica_estg\\2ano\\2s\\ES2\\tp_es2\\esii.csproj",
         "projectName": "esii",
-        "projectPath": "C:\\Users\\mike2\\OneDrive - Instituto Politécnico de Viana do Castelo\\Desktop\\ES II\\tp_es2\\esii.csproj",
-        "packagesPath": "C:\\Users\\mike2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mike2\\OneDrive - Instituto Politécnico de Viana do Castelo\\Desktop\\ES II\\tp_es2\\obj\\",
+        "projectPath": "C:\\Users\\crist\\Desktop\\E.Informatica_estg\\2ano\\2s\\ES2\\tp_es2\\esii.csproj",
+        "packagesPath": "C:\\Users\\crist\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\crist\\Desktop\\E.Informatica_estg\\2ano\\2s\\ES2\\tp_es2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\mike2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\crist\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -85,6 +85,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[9.0.4, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.4.0, )"
             }
           },
           "imports": [
